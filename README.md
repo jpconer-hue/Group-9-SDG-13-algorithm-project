@@ -183,3 +183,14 @@ assert(parent2[2] == 1); // Verify parent is correct
         cout << "Invalid location ID.\n"; // Error
         return 1; // Exit
     }
+
+ }
+    cout << "\n[BASELINE] Calculating shortest safe path...\n"; // Status
+    auto start_time = chrono::high_resolution_clock::now(); // Start timer
+    auto [dist, parent] = naga.m_graph.dijkstraShortestPath(start, 7); // Run Dijkstra
+    auto end_time = chrono::high_resolution_clock::now(); // End timer
+    auto duration = chrono::duration_cast<chrono::microseconds>(end_time - start_time); // Get microseconds
+    vector<int> path = getpath(parent, start, naga.coliseum); // Get route
+    route(naga, path, dist[naga.coliseum]); // Print route
+    cout << "\n[PROFILING] Dijkstra execution time: " << duration.count() << " microseconds\n"; // Show time
+    cout << "[COMPLEXITY] Theoretical: O((V + E) log V) = O((6 + 7) log 6) ≈ 34 operations\n"; // Show complexity    
