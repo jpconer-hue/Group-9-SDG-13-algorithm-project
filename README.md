@@ -194,3 +194,22 @@ assert(parent2[2] == 1); // Verify parent is correct
     route(naga, path, dist[naga.coliseum]); // Print route
     cout << "\n[PROFILING] Dijkstra execution time: " << duration.count() << " microseconds\n"; // Show time
     cout << "[COMPLEXITY] Theoretical: O((V + E) log V) = O((6 + 7) log 6) ≈ 34 operations\n"; // Show complexity    
+
+char simulate; // For flood input
+    cout << "\nSimulate flooding on Panganiban Drive? (y/n): "; // Ask user
+    cin >> simulate; // Get y/n
+    if(simulate == 'y') { // If yes
+        cout << "\n[FLOOD SIMULATION] Panganiban Drive is now impassable!\n"; // Status
+        naga.m_graph.markFlooded(4, 3, naga.names); // Remove Tinago <-> Panganiban road
+    }
+    cout << "Recalculating route...\n"; // Status
+    start_time = chrono::high_resolution_clock::now(); // Start timer again
+    auto [dist2, parent2] = naga.m_graph.dijkstraShortestPath(start, 7); // Run Dijkstra post-flood
+    end_time = chrono::high_resolution_clock::now(); // End timer
+    duration = chrono::duration_cast<chrono::microseconds>(end_time - start_time); // Get new time
+    vector<int> newPath = getpath(parent2, start, naga.coliseum); // Get new route
+    route(naga, newPath, dist2[naga.coliseum]); // Print new route
+    cout << "\n[PROFILING] Post-flood Dijkstra time: " << duration.count() << " microseconds\n"; // Show new time
+    return 0; // End program
+}
+    
