@@ -165,3 +165,21 @@ assert(parent2[2] == 1); // Verify parent is correct
   assert(path2[0] == 0 && path2[1] == 1 && path2[2] == 2); // Check order
   cout << "[PASS] Test 4: getpath works\n";
  cout << "All tests passed!\n\n"; // All good
+ }
+
+ int main() { // Program starts here
+    runUnitTests(); // Run tests first
+    Map naga = NagaMap(); // Build Naga City map
+    cout << "=== SDG 13 FLOOD EVACUATION ROUTING - NAGA CITY ===\n\n"; // Title
+    cout << "Available locations:\n"; // Show menu
+    for(int i = 0; i < naga.coliseum; i++) { // Loop through barangays only
+        cout << i << ": " << naga.names[i] << "\n"; // Print ID + name
+    }
+    cout << "\n";
+    int start; // User's location
+    cout << "Enter your current location ID (0-" << naga.names.size()-2 << "): "; // Prompt
+    cin >> start; // Get input
+    if(start < 0 || start >= naga.coliseum) { // Validate input
+        cout << "Invalid location ID.\n"; // Error
+        return 1; // Exit
+    }
