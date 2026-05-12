@@ -131,3 +131,37 @@ void route(const Map& m, const vector<int>& path, double totaldistance) { // Pri
     cout << "Proceed to Jesse M. Robredo Coliseum now. Stay safe" << endl; // Final instruction
 }
 
+void runUnitTests() { // Tests to verify code works
+  cout << "=== RUNNING UNIT TESTS ===\n";
+  Graph g; // Test graph 1
+  g.addEdge(0, 1, 5.0); // Add 0->1 road, 5km
+  auto [dist, parent] = g.dijkstraShortestPath(0, 2); // Run Dijkstra
+ assert(dist[1] == 5.0); // Check distance is correct
+  cout << "[PASS] Test 1: addEdge works\n";
+    
+Graph g2; // Test graph 2
+ g2.addEdge(0, 1, 1.0); // 0->1 = 1km
+ g2.addEdge(1, 2, 1.0); // 1->2 = 1km 
+g2.addEdge(0, 2, 2.5); // 0->2 = 2.5km direct
+ auto [dist2, parent2] = g2.dijkstraShortestPath(0, 3); // Should pick 0->1->2 = 2km
+ assert(dist2[2] == 2.0); // Verify shortest path used
+assert(parent2[2] == 1); // Verify parent is correct
+  cout << "[PASS] Test 2: dijkstra finds shortest path\n";
+    
+  Graph g3; // Test graph 3
+ g3.addEdge(0, 1, 1.0); // Only 0->1 exists
+ auto [dist3, parent3] = g3.dijkstraShortestPath(0, 3); // Node 2 is isolated
+  assert(dist3[2] == INF); // Distance should be infinity
+ vector<int> path = getpath(parent3, 0, 2); // Try to get path
+   assert(path.empty()); // Path should be empty
+  cout << "[PASS] Test 3: Handles isolated node / no path\n";
+    
+ Graph g4; // Test graph 4
+  g4.addEdge(0, 1, 1.0); // 0->1
+ g4.addEdge(1, 2, 1.0); // 1->2
+  auto [dist4, parent4] = g4.dijkstraShortestPath(0, 3); // Run Dijkstra
+ vector<int> path2 = getpath(parent4, 0, 2); // Reconstruct path
+ assert(path2.size() == 3); // Should have 3 nodes
+  assert(path2[0] == 0 && path2[1] == 1 && path2[2] == 2); // Check order
+  cout << "[PASS] Test 4: getpath works\n";
+ cout << "All tests passed!\n\n"; // All good
