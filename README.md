@@ -31,5 +31,18 @@ void printGraph (const vector<string>& names) {
         cout << "\n";
            }
           }
- 
+ void markFlooded(int u, int v, const vector<string>& names) { // Simulates flooded road
+        cout << "[FLOOD] Closed road: " << names[u] << " <-> " << names[v] << endl; // Notify user
+        auto& edges_u = m_graph[u]; // Get roads from u
+        edges_u.erase( // Erase the road to v
+            remove_if(edges_u.begin(), edges_u.end(), [v](Edge e){ return e.way == v; }), // Find edge where destination = v
+            edges_u.end()
+        );
+        auto& edges_v = m_graph[v]; // Get roads from v
+        edges_v.erase( // Erase the road to u
+            remove_if(edges_v.begin(), edges_v.end(), [u](Edge e){ return e.way == u; }), // Find edge where destination = u
+            edges_v.end()
+        );
+    }
+
            
