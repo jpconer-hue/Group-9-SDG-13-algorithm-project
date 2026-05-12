@@ -80,4 +80,30 @@ pair<vector<double>, vector<int>> dijkstraShortestPath(int start, int nodes) { /
  }
 }
  return {distance, parent}; // Return distances and parents
- }           
+ }    
+
+ private:
+    map<int, vector<Edge>> m_graph; // Adjacency list: node -> list of roads
+};
+
+struct Map { // Wrapper for the whole Naga map
+    vector<string> names; // Names of all locations
+    Graph m_graph; // The actual graph of roads
+    int coliseum; // ID of JMR Coliseum = evacuation center
+    Map(int n) : coliseum(n) {} // Constructor sets coliseum ID
+};
+
+Map NagaMap() { // Builds the Naga City map
+    Map m(7); // Coliseum is node 6, but we pass 7 for size
+    m.names = {"Brgy. Sabang", "Barangay Lerma", "Brgy. Triangulo", "Panganiban Drive", "Barangay Tinago", "Brgy. Dayangdang", "JMR Coliseum"}; // All locations
+    m.coliseum = 6; // JMR Coliseum is index 6
+    m.m_graph.addEdge(0, 6, 1.8); // Sabang -> Coliseum: 1.8km
+    m.m_graph.addEdge(1, 6, 0.5); // Lerma -> Coliseum: 0.5km
+    m.m_graph.addEdge(2, 6, 1.0); // Triangulo -> Coliseum: 1.0km
+    m.m_graph.addEdge(3, 6, 0.75); // Panganiban -> Coliseum: 0.75km
+    m.m_graph.addEdge(4, 3, 0.1); // Tinago -> Panganiban: 0.1km
+    m.m_graph.addEdge(5, 4, 0.65); // Dayangdang -> Tinago: 0.65km
+    m.m_graph.addEdge(5, 2, 3.0); // Dayangdang -> Triangulo: 3.0km backup
+    return m; // Return completed map
+}
+
