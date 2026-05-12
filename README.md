@@ -107,3 +107,27 @@ Map NagaMap() { // Builds the Naga City map
     return m; // Return completed map
 }
 
+vector<int> getpath(const vector<int>& parent, int start, int end) { // Rebuilds route from parent array
+    vector<int> path; // Empty path vector
+    if (end >= parent.size() || (parent[end] == -1 && start!= end)) return path; // No path exists
+    for (int v = end; v!= -1; v = parent[v]) { // Walk backwards from end to start
+        path.push_back(v); // Add node to path
+        if(v == start) break; // Stop when we reach start
+    }
+    reverse(path.begin(), path.end()); // Reverse to get start->end order
+    return path; // Return final route
+}
+
+void route(const Map& m, const vector<int>& path, double totaldistance) { // Prints evacuation route
+    if (path.empty() || totaldistance >= INF) { // If no path found
+        cout << "The area is flooded. go to another route" << endl; // Error message
+        return;
+    }
+    cout << "Safest Evacuation Route Going to Jesse M. Robredo Coliseum" << endl; // Header
+    cout << "Total Distance: " << totaldistance << " km" << endl << endl; // Show distance
+    for (int i = 0; i < path.size(); i++) { // Loop through each stop
+        cout << i + 1 << " " << m.names[path[i]] << endl; // Print step number + location
+    }
+    cout << "Proceed to Jesse M. Robredo Coliseum now. Stay safe" << endl; // Final instruction
+}
+
