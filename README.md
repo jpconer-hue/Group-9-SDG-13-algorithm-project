@@ -164,7 +164,19 @@ assert(parent2[2] == 1); // Verify parent is correct
  assert(path2.size() == 3); // Should have 3 nodes
   assert(path2[0] == 0 && path2[1] == 1 && path2[2] == 2); // Check order
   cout << "[PASS] Test 4: getpath works\n";
- cout << "All tests passed!\n\n"; // All good
+
+  Graph g5; // Test graph 5
+    g5.addEdge(0, 1, 2.0); // A <-> B
+    g5.addEdge(1, 2, 3.0); // B <-> C
+    g5.addEdge(0, 2, 6.0); // A <-> C
+     // Path should be 0 -> 1 -> 2
+    auto [d1, p1] = g5.dijkstraShortestPath(0, 3);
+    assert(d1[2] == 5.0);
+    g5.markFlooded(0, 1, {"A", "B", "C"}); // Flood A -> B
+    auto [d2, p2] = g5.dijkstraShortestPath(0, 3);
+    assert(d2[2] == 6.0);
+    cout << "[PASS] Test 5: markflooded reroutes path\n";
+    cout << "All tests passed!\n\n"; // All good
  }
 
  int main() { // Program starts here
